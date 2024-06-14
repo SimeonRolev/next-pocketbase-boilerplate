@@ -21,3 +21,8 @@
     text-wrap: balance;
   }
 }
+
+input, textarea {
+  border: 1px solid grey;
+  border-radius: 3px;
+}

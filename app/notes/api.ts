@@ -1,7 +1,9 @@
 import db from '../../db';
 
 export async function getNotes() {
-    const q = await db.collection('notes').getList(1, 10)
+    /* Without cache: no-store, the page is treated lia a static one.
+    This means that this request will not be re-executed on normal refresh or router.refresh() */
+    const q = await db.collection('notes').getList(1, 10, { cache: 'no-store' })
     return q.items
 }
 
@@ -14,4 +16,10 @@ export async function getNote(id: string) {
         }
     })
     return q
+}
+
+export async function createNote({ title, content }: { title: string, content: string }) {
+    return await db.collection('notes').create({
+        title, content
+    })
 }

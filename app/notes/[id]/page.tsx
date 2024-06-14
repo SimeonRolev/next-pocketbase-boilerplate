@@ -7,7 +7,7 @@ function Note({ note }: any) {
   return (
     <div>
       <h1 className='text-xl2'>{title}</h1>
-      <p dangerouslySetInnerHTML={{ __html: content }} />
+      <div dangerouslySetInnerHTML={{ __html: content }} />
       <h5>{created}</h5>
     </div>
   )
