@@ -1,8 +1,15 @@
-import React from 'react'
-import { getNote, getNotes } from '../api';
+/*
+https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
 
-function Note({ note }: any) {
-  const { id, title, content, created } = note || {}
+export const dynamic = 'force-dynamic' // Always fetches the latest data
+export const revalidate = 1 // Revalidates every second
+*/
+
+import React from 'react'
+import { Note, getNote, getNotes } from '../api';
+
+function NoteUI({ note }: { note: Note }) {
+  const { title, content, created } = note || {}
 
   return (
     <div>
@@ -13,21 +20,31 @@ function Note({ note }: any) {
   )
 }
 
-async function NotePage(props: { params: { id: string } }) {
+interface Props {
+  params: {
+    id: string
+  }
+}
+
+async function NotePage(props: Props) {
   const { params } = props;
   const note = await getNote(params.id);
 
   return (
     <div>
-      <Note note={note} />
+      <NoteUI note={note} />
     </div>
   )
 }
 
 /* Pre-rendering for dynamic URLs.
-Adding this method returns all the possible NotePage.props.params configurations,
-so that this component can be prepared at build time and not request anything else.
-It will not be called again during revalidation (ISR) */
+Adding this method returns a set of NotePage.props.params configurations,
+for which the component will be prepared at build time and not request anything later.
+It will not be called again during revalidation (ISR).
+
+Control what happens when a dynamic segment is visited that was not generated with generateStaticParams:
+https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config#dynamicparams
+*/
 export async function generateStaticParams() {
   const notes = await getNotes()
   return notes.map(note => ({
