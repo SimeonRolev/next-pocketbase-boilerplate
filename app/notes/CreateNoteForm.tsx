@@ -1,8 +1,8 @@
 'use client'
 
 import React, { ChangeEventHandler, useState } from 'react'
-import * as api from './api';
 import { useRouter } from 'next/navigation';
+import { requests } from './requests';
 
 function CreateNoteForm() {
   const [title, setTitle] = useState('')
@@ -21,13 +21,10 @@ function CreateNoteForm() {
     setTitle('')
     setContent('')
   }
-
-  const onSubmit = async (e) => {
+  
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await api.createNote({
-      title, content
-    })
-
+    await requests.notes({ method:'POST', body: JSON.stringify({title, content}), headers: {'Content-Type': 'application/json'} })
     clear();
     router.refresh()
   }

@@ -1,8 +1,9 @@
 import Link from 'next/link';
-import React from 'react'
-import { getNotes } from './api';
+import React, { cache } from 'react'
+import { Note } from './api';
+import { requests } from './requests';
 
-function Note({ note }: any) {
+function UI({ note }: any) {
   const { id, title, content, created } = note || {}
   return (
     <Link href={`/notes/${id}`}>
@@ -16,12 +17,12 @@ function Note({ note }: any) {
 }
 
 async function NotesPage() {
-  const notes = await getNotes();
+  const notes = await requests.notes({ cache: 'no-store' })
 
   return (
     <div className='flex flex-wrap'>{
       notes?.map((note) => {
-        return <Note key={note.id} note={note} />
+        return <UI key={note.id} note={note} />
       })}
     </div>
   )
