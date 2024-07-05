@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
+import { AuthWrapper } from "./auth/pocketbase";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,12 +17,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <h1 className="border-b border-black">MAIN HEADER</h1>
-        <Link href='/notes'><b>Notes</b></Link>
-        {children}
-      </body>
-    </html>
+    <AuthWrapper>
+      <html lang="en">
+        <body className={inter.className}>
+          <h1 className="border-b border-black">MAIN HEADER</h1>
+          <Link href='/notes'><b>Notes</b></Link>
+          {children}
+        </body>
+      </html>
+    </AuthWrapper>
   );
 }
