@@ -18,3 +18,6 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ## Github app setup
 - Homepage URL: http://localhost:3000
 - Callback URL: http://localhost:8090/api/oauth2-redirect
+
+## Issue
+https://github.com/pocketbase/pocketbase/discussions/2906
