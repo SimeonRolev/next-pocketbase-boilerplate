@@ -2,13 +2,15 @@
 
 import React, { useEffect } from 'react'
 import pb from '@/db';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useSession } from '../pocketbase';
 
 const home_uri = 'http://localhost:3000'
 const redirect_uri = 'http://localhost:3000/auth/manual'
 
 function Page() {
+    const { setUser } = useSession();
+
     useEffect(() => {
         const login = async () => {
             /* For some reason, this view redirects to itself - maybe because this is the redirectURL.
@@ -40,6 +42,8 @@ function Page() {
                 .then((authData) => {
                     console.log(authData)
                     window.localStorage.setItem('auth', '1')
+                    setUser(pb.authStore.model)
+                    window.location.href = '/'
                 })
                 .catch((error) => {
                     console.warn(error)

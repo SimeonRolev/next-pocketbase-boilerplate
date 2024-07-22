@@ -7,6 +7,7 @@ import { ReactNode, useEffect, useState, createContext, useContext } from "react
 
 interface AuthContextType {
     user: AuthModel | null;
+    setUser: (authModel: AuthModel | null) => void;
     ghManual: () => void;
     ghAllInOne: () => void;
     signOut: () => void;
@@ -58,7 +59,7 @@ export const AuthWrapper = ({ children }: { children: ReactNode }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, ghManual, ghAllInOne, signOut }}>
+        <AuthContext.Provider value={{ user, setUser, ghManual, ghAllInOne, signOut }}>
             {children}
         </AuthContext.Provider>
     )
